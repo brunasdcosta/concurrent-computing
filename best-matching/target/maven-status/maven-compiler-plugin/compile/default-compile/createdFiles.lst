@@ -1,0 +1,12 @@
+META-INF/CompilerHints
+serial/jmh/Test.class
+serial/jmh/jmh_generated/Testbench_jmhType.class
+serial/jmh/jmh_generated/Testbench_jmhType_B1.class
+serial/jmh/jmh_generated/Testbench_jmhType_B3.class
+META-INF/BenchmarkList
+serial/BestMatching.class
+serial/jmh/jmh_generated/Testbench_init_jmhTest.class
+serial/LevenshteinDistance.class
+serial/jmh/jmh_generated/Testbench_jmhType_B2.class
+serial/jmh/Testbench.class
+serial/SerialMain.class
