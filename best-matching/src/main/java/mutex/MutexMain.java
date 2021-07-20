@@ -6,9 +6,10 @@ import java.util.List;
 public class MutexMain {
 
 	public static void main(String[] args) {
-		BestMatching bm = new BestMatching("/home/bruna/ufrn/concorrente/archive/titles.csv", "The");
+		BestMatching bm = new BestMatching("/home/bruna/workspace/concurrent-computing/dataset/dataset.txt",
+				"u4ezcpyngll9");
 		try {
-			bm.run_algorithm();
+			bm.runAlgorithm();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

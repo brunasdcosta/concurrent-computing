@@ -1,11 +1,11 @@
 package serial.jmh;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -17,19 +17,19 @@ import serial.BestMatching;
 public class Testbench {
 
 	@Benchmark
-	@Warmup(iterations = 3)
-	@Measurement(iterations = 7)
+	@Fork(value = 1)
+	@Warmup(iterations = 5)
+	@Measurement(iterations = 10)
 	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	@OutputTimeUnit(TimeUnit.MINUTES)
 	public void init(Blackhole bh) {
-		BestMatching bm = new BestMatching("/home/bruna/ufrn/concorrente/archive/titles.csv", "The");
+		BestMatching bm = new BestMatching("/home/bruna/workspace/concurrent-computing/dataset/dataset.txt", "rs313lj1kxy0");
 		try {
-			bm.run_algorithm();
+			bm.runAlgorithm();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		List<String> result = bm.getLevenshtein().getLowestsLevenshteinDistance();
-		bh.consume(result);
+		bh.consume(bm.getLevenshtein().getLowestsLevenshteinDistance());
 	}
 
 }

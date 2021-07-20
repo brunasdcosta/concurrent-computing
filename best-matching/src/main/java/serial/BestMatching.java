@@ -7,24 +7,21 @@ import java.util.Scanner;
 public class BestMatching {
 
 	private LevenshteinDistance levenshtein;
-	private String file_path;
+	private String filePath;
 
-	public BestMatching(String file_path, String search_word) {
-		this.file_path = file_path;
-		this.levenshtein = new LevenshteinDistance(search_word);
+	public BestMatching(String filePath, String searchWord) {
+		this.filePath = filePath;
+		this.levenshtein = new LevenshteinDistance(searchWord);
 	}
 
-	public void run_algorithm() throws IOException {
+	public void runAlgorithm() throws IOException {
 		FileInputStream stream = null;
 		Scanner scanner = null;
 		try {
-			stream = new FileInputStream(file_path);
+			stream = new FileInputStream(filePath);
 			scanner = new Scanner(stream, "UTF-8");
 			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				line = line.replace("\"", "");
-				line = line.replace(".", "");
-				levenshtein.calculateLevenshteinDistance(line);
+				levenshtein.calculateLevenshteinDistance(scanner.nextLine());
 			}
 			if (scanner.ioException() != null) {
 				throw scanner.ioException();
@@ -47,12 +44,12 @@ public class BestMatching {
 		this.levenshtein = levenshtein;
 	}
 
-	public String getFile_path() {
-		return file_path;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setFile_path(String file_path) {
-		this.file_path = file_path;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 }

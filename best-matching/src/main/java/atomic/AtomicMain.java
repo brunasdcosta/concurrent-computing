@@ -6,9 +6,9 @@ import java.util.List;
 public class AtomicMain {
 
 	public static void main(String[] args) {
-		BestMatching bm = new BestMatching("/home/bruna/ufrn/concorrente/archive/titles.csv", "The");
+		BestMatching bm = new BestMatching("/home/bruna/workspace/concurrent-computing/dataset/dataset.txt", "rs313lj1kxy0");
 		try {
-			bm.run_algorithm();
+			bm.runAlgorithm();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
