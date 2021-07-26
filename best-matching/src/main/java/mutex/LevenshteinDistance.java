@@ -21,6 +21,15 @@ public class LevenshteinDistance {
 	}
 
 	/**
+	 * Método que adiciona uma palavra na lista de palavras.
+	 * 
+	 * @param word A palavra que deve ser adicionada na lista "data".
+	 */
+	public void addData(String word) {
+		data.add(word);
+	}
+
+	/**
 	 * Método que cria as "quantity" threads que irão realizar os cálculos nas
 	 * palavras armazenadas no atributo "data".
 	 * 
@@ -95,7 +104,7 @@ public class LevenshteinDistance {
 	 * @param distance O valor da distância.
 	 * @param word     A palavra atrelada ao valor da distância.
 	 */
-	public void addDistance(int distance, String word) {
+	public synchronized void addDistance(int distance, String word) {
 		List<String> list;
 		if (distances.containsKey(distance)) {
 			list = distances.get(distance);
@@ -117,15 +126,6 @@ public class LevenshteinDistance {
 			return null;
 		}
 		return distances.get(Collections.min(distances.keySet()));
-	}
-
-	/**
-	 * Método que adiciona uma palavra na lista de palavras.
-	 * 
-	 * @param word A palavra que deve ser adicionada na lista "data".
-	 */
-	public void addData(String word) {
-		data.add(word);
 	}
 
 	public String getSearchWord() {

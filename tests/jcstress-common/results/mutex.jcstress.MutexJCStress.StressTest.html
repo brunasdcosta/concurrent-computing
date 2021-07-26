@@ -1,0 +1,168 @@
+
+<html>
+<head>
+<title>Java Concurrency Stress test report</title>
+ <style type="text/css">
+   * { font-family: Arial; }
+   table { font-size: 9pt; }
+   a { color: #000000; }
+   .progress { padding: 0px; }
+   .header { text-align: left; }
+   .section1 { font-size: 12pt; background-color: #BDB76B; color: #000000; font-weight: bold;}
+   .section2 { font-size: 12pt; background-color: #F0E68C; color: #000000; font-weight: bold;}
+   .cell1 { background-color: #FAFAD2; }
+   .cell2 { background-color: #EEE8AA; }
+   .passedProgress { background-color: #00AA00; color: #FFFFFF; text-align: center; font-weight: bold; }
+   .failedProgress { background-color: #FF0000; color: #FFFFFF; text-align: center; font-weight: bold; }
+   .passed { color: #00AA00; text-align: center; font-weight: bold; }
+   .failed { color: #FF0000; text-align: center; font-weight: bold; }
+   .interesting { color: #0000FF; text-align: center; font-weight: bold; }
+   .spec { color: #AAAA00; text-align: center; font-weight: bold; }
+   .endResult { font-size: 48pt; text-align: center; font-weight: bold; }
+ </style>
+</head>
+<body>
+<h1>mutex.jcstress.MutexJCStress.StressTest</h1>
+<h3>Description and references</h3>
+<p>null</p>
+<h3>Environment</h3>
+<table>
+<tr>
+<td nowrap>java.specification.name</td>
+<td nowrap>Java Platform API Specification</td>
+</tr>
+<tr>
+<td nowrap>java.specification.vendor</td>
+<td nowrap>Oracle Corporation</td>
+</tr>
+<tr>
+<td nowrap>java.specification.version</td>
+<td nowrap>11</td>
+</tr>
+<tr>
+<td nowrap>java.vendor</td>
+<td nowrap>Ubuntu</td>
+</tr>
+<tr>
+<td nowrap>java.version</td>
+<td nowrap>11.0.11</td>
+</tr>
+<tr>
+<td nowrap>java.vm.name</td>
+<td nowrap>OpenJDK 64-Bit Server VM</td>
+</tr>
+<tr>
+<td nowrap>java.vm.vendor</td>
+<td nowrap>Ubuntu</td>
+</tr>
+<tr>
+<td nowrap>java.vm.version</td>
+<td nowrap>11.0.11+9-Ubuntu-0ubuntu2.18.04</td>
+</tr>
+<tr>
+<td nowrap>os.arch</td>
+<td nowrap>amd64</td>
+</tr>
+<tr>
+<td nowrap>os.name</td>
+<td nowrap>Linux</td>
+</tr>
+<tr>
+<td nowrap>os.version</td>
+<td nowrap>5.4.0-73-generic</td>
+</tr>
+</table>
+<h3>Test configurations</h3>
+<table>
+<tr>
+<td nowrap><b>TC 1</b></td>
+<td nowrap>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8]; Compile mode: 2</td>
+</tr>
+<tr>
+<td nowrap><b>TC 2</b></td>
+<td nowrap>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8]; Compile mode: 1</td>
+</tr>
+<tr>
+<td nowrap><b>TC 3</b></td>
+<td nowrap>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8]; Compile mode: 0</td>
+</tr>
+<tr>
+<td nowrap><b>TC 4</b></td>
+<td nowrap>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8, -XX:+StressLCM, -XX:+StressGCM]; Compile mode: 2</td>
+</tr>
+</table>
+<h3>Observed states</h3>
+<table cellpadding=5>
+<tr>
+<th>Observed state</th>
+<th nowrap>TC 1</th>
+<th nowrap>TC 2</th>
+<th nowrap>TC 3</th>
+<th nowrap>TC 4</th>
+<th>Expectation</th>
+<th>Interpretation</th>
+</tr>
+<tr>
+<td align='center'>0</td>
+<td align='right' width='7.5%' bgColor=#00ff00>959</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1344</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1215</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1280</td>
+<td>Acceptable</td>
+<td>correct response</td>
+</tr>
+<tr>
+<td align='center'>1</td>
+<td align='right' width='7.5%' bgColor=#ff0000>1</td>
+<td align='right' width='7.5%' bgColor=#c0c0c0>0</td>
+<td align='right' width='7.5%' bgColor=#ff0000>1</td>
+<td align='right' width='7.5%' bgColor=#c0c0c0>0</td>
+<td>Forbidden</td>
+<td>incorrect response</td>
+</tr>
+<tr>
+<td></td>
+<td align='center' bgColor='red '>FAILED</td>
+<td align='center' bgColor='green '>OK</td>
+<td align='center' bgColor='red '>FAILED</td>
+<td align='center' bgColor='green '>OK</td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<h3>Messages</h3>
+<h3>VM Output Streams</h3>
+<h3>VM Error Streams</h3>
+<p><b>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8]; Compile mode: 2</b></p>
+<pre>
+Exception in thread "thread 1" java.lang.ArrayIndexOutOfBoundsException: Index 164 out of bounds for length 163
+	at java.base/java.util.ArrayList.add(ArrayList.java:487)
+	at java.base/java.util.ArrayList.add(ArrayList.java:499)
+	at mutex.LevenshteinDistance.addDistance(LevenshteinDistance.java:105)
+	at mutex.LevenshteinDistance.calculateLevenshteinDistance(LevenshteinDistance.java:88)
+	at mutex.SimpleThread.run(SimpleThread.java:21)
+Exception in thread "thread 0" java.lang.ArrayIndexOutOfBoundsException
+</pre>
+
+<p><b>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8]; Compile mode: 0</b></p>
+<pre>
+Exception in thread "thread 0" java.lang.ArrayIndexOutOfBoundsException: Index 34 out of bounds for length 33
+	at java.base/java.util.ArrayList.add(ArrayList.java:487)
+	at java.base/java.util.ArrayList.add(ArrayList.java:499)
+	at mutex.LevenshteinDistance.addDistance(LevenshteinDistance.java:105)
+	at mutex.LevenshteinDistance.calculateLevenshteinDistance(LevenshteinDistance.java:88)
+	at mutex.SimpleThread.run(SimpleThread.java:21)
+</pre>
+
+<p><b>JVM options: [-Xms2G, -Xmx6G, -Dfile.encoding=UTF-8, -XX:+StressLCM, -XX:+StressGCM]; Compile mode: 2</b></p>
+<pre>
+Exception in thread "thread 5" java.lang.ArrayIndexOutOfBoundsException: Index 550 out of bounds for length 549
+	at java.base/java.util.ArrayList.add(ArrayList.java:487)
+	at java.base/java.util.ArrayList.add(ArrayList.java:499)
+	at mutex.LevenshteinDistance.addDistance(LevenshteinDistance.java:105)
+	at mutex.LevenshteinDistance.calculateLevenshteinDistance(LevenshteinDistance.java:88)
+	at mutex.SimpleThread.run(SimpleThread.java:21)
+</pre>
+
+</body>
+</html>

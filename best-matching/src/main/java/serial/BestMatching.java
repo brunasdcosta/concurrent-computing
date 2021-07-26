@@ -1,8 +1,8 @@
 package serial;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class BestMatching {
 
@@ -14,24 +14,28 @@ public class BestMatching {
 		this.levenshtein = new LevenshteinDistance(searchWord);
 	}
 
-	public void runAlgorithm() throws IOException {
-		FileInputStream stream = null;
-		Scanner scanner = null;
+	public void runAlgorithm() {
+		BufferedReader reader = null;
+		FileReader file = null;
+		String line;
 		try {
-			stream = new FileInputStream(filePath);
-			scanner = new Scanner(stream, "UTF-8");
-			while (scanner.hasNextLine()) {
-				levenshtein.calculateLevenshteinDistance(scanner.nextLine());
+			file = new FileReader(filePath);
+			reader = new BufferedReader(file);
+			while ((line = reader.readLine()) != null) {
+				levenshtein.calculateLevenshteinDistance(line);
 			}
-			if (scanner.ioException() != null) {
-				throw scanner.ioException();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
-			if (stream != null) {
-				stream.close();
-			}
-			if (scanner != null) {
-				scanner.close();
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+				if (file != null) {
+					file.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

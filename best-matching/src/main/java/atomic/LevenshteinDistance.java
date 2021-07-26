@@ -2,21 +2,19 @@ package atomic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LevenshteinDistance {
 
 	private String searchWord;
 
-	// private ConcurrentHashMap<Integer, List<String>> distances;
-	private Map<Integer, List<String>> distances;
+	private ConcurrentHashMap<Integer, List<String>> distances;
 
 	private List<String> data;
 
 	public LevenshteinDistance(String searchWord) {
-		this.distances = new HashMap<Integer, List<String>>();
+		this.distances = new ConcurrentHashMap<Integer, List<String>>();
 		this.data = new ArrayList<String>();
 		this.searchWord = searchWord;
 	}
@@ -137,11 +135,11 @@ public class LevenshteinDistance {
 		this.searchWord = searchWord;
 	}
 
-	public Map<Integer, List<String>> getDistances() {
+	public ConcurrentHashMap<Integer, List<String>> getDistances() {
 		return distances;
 	}
 
-	public void setDistances(Map<Integer, List<String>> distances) {
+	public void setDistances(ConcurrentHashMap<Integer, List<String>> distances) {
 		this.distances = distances;
 	}
 
