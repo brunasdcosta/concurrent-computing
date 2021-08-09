@@ -1,4 +1,4 @@
-package serial.jmh.jmh_generated;
+package jmh.jmh_generated;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 public class Testbench_jmhType_B2 extends Testbench_jmhType_B1 {
     public volatile int setupTrialMutex;

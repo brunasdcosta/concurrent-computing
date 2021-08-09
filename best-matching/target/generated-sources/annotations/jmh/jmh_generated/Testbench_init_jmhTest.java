@@ -1,4 +1,4 @@
-package serial.jmh.jmh_generated;
+package jmh.jmh_generated;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,7 +32,7 @@ import org.openjdk.jmh.results.ScalarResult;
 import org.openjdk.jmh.results.AggregationPolicy;
 import org.openjdk.jmh.runner.FailureAssistException;
 
-import serial.jmh.jmh_generated.Testbench_jmhType;
+import jmh.jmh_generated.Testbench_jmhType;
 public final class Testbench_init_jmhTest {
 
     byte p000, p001, p002, p003, p004, p005, p006, p007, p008, p009, p010, p011, p012, p013, p014, p015;
