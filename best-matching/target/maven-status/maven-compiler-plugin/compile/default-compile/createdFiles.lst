@@ -1,7 +1,10 @@
+parallelstream/BestMatching.class
 executor/Info.class
 executor/BestMatching.class
 executor/BestMatching$1.class
 forkjoin/ForkJoinMain.class
+parallelstream/LevenshteinDistance.class
+parallelstream/ParallelStreamMain.class
 executor/ExecutorMain.class
 forkjoin/LevenshteinDistance.class
 forkjoin/BestMatching.class
