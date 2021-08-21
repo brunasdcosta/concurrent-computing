@@ -8,14 +8,15 @@
 	<name>best-matching</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.openjdk.jcstress</groupId>
-			<artifactId>jcstress-core</artifactId>
-			<version>0.14</version>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.3.19.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openjdk.jmh</groupId>
-			<artifactId>jmh-generator-annprocess</artifactId>
-			<version>1.32</version>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<version>3.3.19.RELEASE</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<properties>

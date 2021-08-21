@@ -1,22 +1,20 @@
-package parallelstream;
+package reactive;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import common.LevenshteinDistance;
+import reactor.core.publisher.Flux;
 
 public class BestMatching {
 
 	private String filePath;
 	private LevenshteinDistance levenshtein;
-	private Set<String> data;
+	private Flux<String> data;
 	private Map<String, Integer> distances;
-	private Set<String> result;
+	private Flux<String> result;
 
 	public BestMatching(String filePath, String searchWord) {
 		this.filePath = filePath;
@@ -28,12 +26,17 @@ public class BestMatching {
 		BufferedReader reader = null;
 		FileReader file = null;
 		String line;
-		this.data = new HashSet<String>();
+		boolean first = true;
 		try {
 			file = new FileReader(filePath);
 			reader = new BufferedReader(file);
 			while ((line = reader.readLine()) != null) {
-				data.add(line);
+				if (first) {
+					data = Flux.just(line);
+					first = false;
+				} else {
+					data = Flux.merge(data, Flux.just(line));
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,11 +55,25 @@ public class BestMatching {
 	}
 
 	public void runAlgorithm() {
-		distances = data.parallelStream()
-				.collect(Collectors.toMap(i -> i, i -> levenshtein.calculateLevenshteinDistance(i)));
+		distances = new HashMap<String, Integer>();
+		data.subscribe(word -> {
+			levenshtein.calculateLevenshteinDistance(word).subscribe(distance -> {
+				distances.put(word, distance);
+			});
+		});
+		data = null;
+		boolean first = true;
 		final int shortestDistance = levenshtein.getShortestDistance().get();
-		result = distances.keySet().parallelStream().filter((key) -> distances.get(key) == shortestDistance)
-				.collect(Collectors.toSet());
+		for (String word : distances.keySet()) {
+			if (distances.get(word) == shortestDistance) {
+				if (first) {
+					result = Flux.just(word);
+					first = false;
+				} else {
+					result = Flux.merge(result, Flux.just(word));
+				}
+			}
+		}
 	}
 
 	public String getFilePath() {
@@ -75,11 +92,11 @@ public class BestMatching {
 		this.levenshtein = levenshtein;
 	}
 
-	public Set<String> getData() {
+	public Flux<String> getData() {
 		return data;
 	}
 
-	public void setData(Set<String> data) {
+	public void setData(Flux<String> data) {
 		this.data = data;
 	}
 
@@ -91,11 +108,11 @@ public class BestMatching {
 		this.distances = distances;
 	}
 
-	public Set<String> getResult() {
+	public Flux<String> getResult() {
 		return result;
 	}
 
-	public void setResult(Set<String> result) {
+	public void setResult(Flux<String> result) {
 		this.result = result;
 	}
 

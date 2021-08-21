@@ -1,13 +1,17 @@
-package parallelstream;
+package reactive;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import reactor.core.publisher.Mono;
 
 public class LevenshteinDistance {
 
 	private String searchWord;
-	private int shortestDistance;
+	private AtomicInteger shortestDistance;
 
 	public LevenshteinDistance(String searchWord) {
 		this.searchWord = searchWord;
-		this.shortestDistance = Integer.MAX_VALUE;
+		this.shortestDistance = new AtomicInteger(Integer.MAX_VALUE);
 	}
 
 	/**
@@ -16,8 +20,9 @@ public class LevenshteinDistance {
 	 * 
 	 * @param word Palavra a qual se quer calcular a Distância de Levenshtein em
 	 *             relação a "searchWord".
+	 * @return Um Mono que contém a distância calculada.
 	 */
-	public int calculateLevenshteinDistance(String word) {
+	public Mono<Integer> calculateLevenshteinDistance(String word) {
 
 		int swlen = searchWord.length();
 		int wlen = word.length();
@@ -43,12 +48,13 @@ public class LevenshteinDistance {
 		}
 
 		int distance = matrix[swlen][wlen];
+		matrix = null;
 
-		if (distance < shortestDistance) {
-			shortestDistance = distance;
+		if (distance < shortestDistance.get()) {
+			shortestDistance.set(distance);
 		}
 
-		return distance;
+		return Mono.just(distance);
 	}
 
 	public String getSearchWord() {
@@ -59,11 +65,11 @@ public class LevenshteinDistance {
 		this.searchWord = searchWord;
 	}
 
-	public int getShortestDistance() {
+	public AtomicInteger getShortestDistance() {
 		return shortestDistance;
 	}
 
-	public void setShortestDistance(int shortestDistance) {
+	public void setShortestDistance(AtomicInteger shortestDistance) {
 		this.shortestDistance = shortestDistance;
 	}
 
