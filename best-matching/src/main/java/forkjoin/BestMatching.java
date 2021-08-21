@@ -67,7 +67,7 @@ public class BestMatching extends RecursiveAction {
 		}
 	}
 
-	private void runAlgorith() {
+	private void runAlgorithm() {
 		data.forEach(word -> {
 			distances.put(word, levenshtein.calculateLevenshteinDistance(word));
 		});
@@ -75,7 +75,7 @@ public class BestMatching extends RecursiveAction {
 
 	protected void compute() {
 		if (data.size() <= threshold) {
-			runAlgorith();
+			runAlgorithm();
 			this.data = null;
 		} else {
 			int mid = data.size() / 2;

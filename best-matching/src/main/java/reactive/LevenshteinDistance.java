@@ -1,17 +1,15 @@
 package reactive;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import reactor.core.publisher.Mono;
 
 public class LevenshteinDistance {
 
 	private String searchWord;
-	private AtomicInteger shortestDistance;
+	private int shortestDistance;
 
 	public LevenshteinDistance(String searchWord) {
 		this.searchWord = searchWord;
-		this.shortestDistance = new AtomicInteger(Integer.MAX_VALUE);
+		this.shortestDistance = Integer.MAX_VALUE;
 	}
 
 	/**
@@ -50,8 +48,8 @@ public class LevenshteinDistance {
 		int distance = matrix[swlen][wlen];
 		matrix = null;
 
-		if (distance < shortestDistance.get()) {
-			shortestDistance.set(distance);
+		if (distance < shortestDistance) {
+			shortestDistance = distance;
 		}
 
 		return Mono.just(distance);
@@ -65,11 +63,11 @@ public class LevenshteinDistance {
 		this.searchWord = searchWord;
 	}
 
-	public AtomicInteger getShortestDistance() {
+	public int getShortestDistance() {
 		return shortestDistance;
 	}
 
-	public void setShortestDistance(AtomicInteger shortestDistance) {
+	public void setShortestDistance(int shortestDistance) {
 		this.shortestDistance = shortestDistance;
 	}
 

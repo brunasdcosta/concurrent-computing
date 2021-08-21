@@ -63,7 +63,7 @@ public class BestMatching {
 		});
 		data = null;
 		boolean first = true;
-		final int shortestDistance = levenshtein.getShortestDistance().get();
+		final int shortestDistance = levenshtein.getShortestDistance();
 		for (String word : distances.keySet()) {
 			if (distances.get(word) == shortestDistance) {
 				if (first) {
