@@ -16,6 +16,8 @@ public class BestMatching extends RecursiveAction {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final int NUMBER_OF_THREADS = 4;
+
 	private int threshold;
 
 	private String filePath;
@@ -50,7 +52,7 @@ public class BestMatching extends RecursiveAction {
 				data.add(line);
 			}
 			this.distances = new ConcurrentHashMap<String, Integer>();
-			this.threshold = Math.floorDiv(data.size(), 4);
+			this.threshold = Math.floorDiv(data.size(), NUMBER_OF_THREADS);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

@@ -19,8 +19,7 @@ public class Test {
 	@State
 	public static class MyState extends BestMatching {
 		public MyState() {
-			super("/home/bruna/workspace/concurrent-computing/dataset.txt", "XXXXfddyzXXX", 4); // executor
-//			super("/home/bruna/workspace/concurrent-computing/dataset.txt", "XXXXfddyzXXX"); // others
+			super("/home/bruna/workspace/concurrent-computing/dataset.txt", "XXXXfddyzXXX");
 		}
 	}
 

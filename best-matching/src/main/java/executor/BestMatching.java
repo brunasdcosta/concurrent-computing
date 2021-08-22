@@ -18,19 +18,19 @@ import common.LevenshteinDistance;
 
 public class BestMatching {
 
+	public static final int NUMBER_OF_THREADS = 8;
+
 	private String filePath;
-	private int numThreads;
 	private LevenshteinDistance levenshtein;
 	private Set<String> result;
 
-	public BestMatching(String filePath, String searchWord, int numThreads) {
+	public BestMatching(String filePath, String searchWord) {
 		this.filePath = filePath;
-		this.numThreads = numThreads;
 		this.levenshtein = new LevenshteinDistance(searchWord);
 	}
 
 	public void runAlgorithm() {
-		ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
+		ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 		List<Callable<Info>> callables = new ArrayList<>();
 		FileReader file = null;
 		BufferedReader reader = null;
@@ -59,8 +59,8 @@ public class BestMatching {
 				}
 				List<Future<Info>> futures = executorService.invokeAll(callables);
 				result = new HashSet<String>();
+				final int shortestDistance = levenshtein.getShortestDistance().get();
 				for (Future<Info> future : futures) {
-					final int shortestDistance = levenshtein.getShortestDistance().get();
 					if (future.get().getDistance() == shortestDistance) {
 						result.add(future.get().getWord());
 					}
@@ -83,14 +83,6 @@ public class BestMatching {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
-	}
-
-	public int getNumThreads() {
-		return numThreads;
-	}
-
-	public void setNumThreads(int numThreads) {
-		this.numThreads = numThreads;
 	}
 
 	public LevenshteinDistance getLevenshtein() {
