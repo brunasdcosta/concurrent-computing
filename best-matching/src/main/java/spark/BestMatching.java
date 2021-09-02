@@ -8,6 +8,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
+import org.openjdk.jmh.infra.Blackhole;
 
 import scala.Tuple2;
 
@@ -21,12 +22,34 @@ public class BestMatching implements Serializable {
 	private JavaPairRDD<String, Integer> distances;
 	private JavaRDD<String> result;
 
+	/**
+	 * Construtor padrão.
+	 */
 	public BestMatching(String filePath, String searchWord, String coresConfig, int minPartitions) {
 		this.filePath = filePath;
 		levenshtein = new LevenshteinDistance(searchWord);
-		SparkConf sparkConf = new SparkConf().setAppName("best-matching").setMaster(coresConfig);
-		JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
+		JavaSparkContext sparkContext = new JavaSparkContext(
+				new SparkConf().setAppName("best-matching").setMaster(coresConfig));
 		words = sparkContext.textFile(filePath, minPartitions);
+	}
+
+	/**
+	 * Construtor para o teste JMH.
+	 */
+	public BestMatching(String filePath, String searchWord, String coresConfig, int minPartitions, int resultCount,
+			Blackhole bh) {
+		this.filePath = filePath;
+		levenshtein = new LevenshteinDistance(searchWord);
+		JavaSparkContext sparkContext = new JavaSparkContext(
+				new SparkConf().setAppName("best-matching").setMaster(coresConfig));
+		words = sparkContext.textFile(filePath, minPartitions);
+		calculateDistances();
+		calculateResult();
+		while (result.count() != resultCount) {
+			/* wait */
+		}
+		bh.consume(result);
+		sparkContext.stop();
 	}
 
 	public void calculateDistances() {
@@ -43,7 +66,8 @@ public class BestMatching implements Serializable {
 		JavaRDD<Integer> distancesRDD = distances.map(a -> a._2).distinct();
 		final int shortestDistance = distancesRDD.reduce((i, j) -> i < j ? i : j);
 		result = distances.filter(tuple -> tuple._2 == shortestDistance)
-				.flatMap(tuple -> Arrays.asList(tuple._1).iterator());
+				.flatMap(tuple -> Arrays.asList(tuple._1).iterator()).distinct();
+
 	}
 
 	public String getFilePath() {
